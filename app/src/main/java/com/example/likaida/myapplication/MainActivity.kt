@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 
 class MainActivity : AppCompatActivity() {
 	private var items: List<String>? = null
@@ -12,7 +15,13 @@ class MainActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_main)
 		initView()
 		initDate()
+		click.setOnClickListener{
+			async(UI){}
+			Request("").run()
+		}
 	}
+
+
 
 	private fun initView() {
 		val forecastList = findViewById(R.id.forecast_list) as RecyclerView
