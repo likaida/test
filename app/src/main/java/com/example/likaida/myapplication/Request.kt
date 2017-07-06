@@ -6,8 +6,8 @@ import java.net.URL
 /**
  * Created by likaida on 2017/7/3.
  */
-public class Request(val url: String) {
-	public fun run() {
+class Request(val url: String) {
+	fun run() {
 		val str = URL(url).readText()
 		Log.d(javaClass.simpleName, str)
 	}
