@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
+import com.example.likaida.myapplication.Domain.commands.RequestForecastCommand
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
-import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
@@ -26,20 +26,19 @@ class MainActivity : AppCompatActivity() {
 
 	private fun initListener() {
 		click.setOnClickListener {
-			async(UI) {
-				bg {
-					Request("https://www.baidu.com/").run()
-				}
-			}
 			toast("click")
 		}
 	}
 
 	private fun initView() {
-//		val forecastList = findViewById(R.id.forecast_list) as RecyclerView
 		val forecastList: RecyclerView = find(R.id.forecast_list)
 		forecastList.layoutManager = LinearLayoutManager(this)
-		forecastList.adapter = ForecastListAdapter(items as List<String>)
+		async(UI){
+			val result= RequestForecastCommand("94043".toLong()).execute()
+			runOnUiThread{
+				forecastList.adapter = ForecastListAdapter(result)
+			}
+		}
 	}
 
 	private fun initDate() {
